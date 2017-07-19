@@ -1,0 +1,60 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.1.RELEASE'
+        springGradleVersion = '0.6.0.RELEASE'
+    }
+    repositories {
+        maven {
+            url 'https://repo.spring.io/libs-snapshot'
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:${springGradleVersion}"
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'org.springframework.boot'
+apply plugin:"jacoco"
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://repo.spring.io/milestone'
+    }
+}
+
+jar {
+    baseName = 'eureka-server'
+    version = '0.0.1-SNAPSHOT'
+}
+
+springBoot {
+    executable = true
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Dalston.RC1'
+    }
+}
+
+dependencies {
+    compile ('org.codehaus.groovy:groovy-all:2.3.11')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.cloud:spring-cloud-starter-config:1.2.2.RELEASE')
+    compile 'org.springframework.cloud:spring-cloud-starter-eureka-server'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile 'junit:junit:4.12'
+}
+
