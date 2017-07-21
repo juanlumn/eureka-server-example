@@ -1,33 +1,24 @@
 buildscript {
-    ext {
-        springBootVersion = '1.5.1.RELEASE'
-        springGradleVersion = '0.6.0.RELEASE'
-    }
     repositories {
-        maven {
-            url 'https://repo.spring.io/libs-snapshot'
-        }
-        mavenCentral()
+        jcenter()
+        maven { url "http://repo.spring.io/libs-snapshot-local" }
     }
     dependencies {
-        classpath "io.spring.gradle:dependency-management-plugin:${springGradleVersion}"
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
     }
 }
 
-apply plugin: 'groovy'
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: "io.spring.dependency-management"
-apply plugin: 'org.springframework.boot'
+apply plugin: 'spring-boot'
 apply plugin:"jacoco"
 
 repositories {
-    mavenCentral()
-    maven {
-        url 'https://repo.spring.io/milestone'
-    }
+    jcenter()
+    maven { url 'https://repo.spring.io/release/' }
+    maven { url "http://repo.spring.io/libs-snapshot-local" }
+    maven { url "http://repo.spring.io/libs-milestone-local" }
+    maven { url "http://repo.spring.io/libs-release-local" }
 }
 
 jar {
@@ -49,12 +40,12 @@ dependencyManagement {
 }
 
 dependencies {
-    compile ('org.codehaus.groovy:groovy-all:2.3.11')
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.cloud:spring-cloud-starter-config:1.2.2.RELEASE')
     compile 'org.springframework.cloud:spring-cloud-starter-eureka-server'
+    compile('org.springframework.cloud:spring-cloud-starter-config:1.2.2.RELEASE')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile 'junit:junit:4.12'
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
